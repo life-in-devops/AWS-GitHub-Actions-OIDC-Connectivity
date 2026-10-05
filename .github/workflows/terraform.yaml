@@ -81,16 +81,9 @@ jobs:
             -var="bucket_name=github-actions-aws-oidc-connectivity-check" \
             -var="environment=test"
 
-      # - name: Terraform Apply
-      #   run: |
-      #     terraform apply \
-      #       -var="bucket_name=github-actions-aws-oidc-connectivity-check" \
-      #       -var="environment=test" \
-      #       -auto-approve
-
-      - name: Terraform Destroy
+      - name: Terraform Apply
         run: |
-          terraform destroy \
+          terraform apply \
             -var="bucket_name=github-actions-aws-oidc-connectivity-check" \
             -var="environment=test" \
             -auto-approve
