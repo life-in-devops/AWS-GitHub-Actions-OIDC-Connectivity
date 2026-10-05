@@ -78,12 +78,12 @@ jobs:
       - name: Terraform Plan
         run: |
           terraform plan \
-            -var="bucket_name=my-unique-terraform-demo-bucket-12345" \
-            -var="environment=dev"
+            -var="bucket_name=github-actions-aws-oidc-connectivity-check" \
+            -var="environment=test"
 
       - name: Terraform Apply
         run: |
           terraform apply \
-            -var="bucket_name=my-unique-terraform-demo-bucket-12345" \
-            -var="environment=dev" \
+            -var="bucket_name=github-actions-aws-oidc-connectivity-check" \
+            -var="environment=test" \
             -auto-approve
