@@ -1,0 +1,55 @@
+name: Terraform
+
+on:
+  push:
+    branches:
+      - main
+
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v6
+        with:
+          role-to-assume: arn:aws:iam::539188695824:role/GitHubActionsTerraformRole
+          aws-region: ap-south-1
+
+      - name: Verify AWS identity
+        run: aws sts get-caller-identity
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Terraform Format
+        run: terraform fmt -check -recursive
+
+      - name: Terraform Validate
+        run: terraform validate
+
+      - name: Terraform Plan
+        run: |
+          terraform plan \
+            -var="bucket_name=my-unique-terraform-demo-bucket-12345" \
+            -var="environment=dev"
+
+      - name: Terraform Apply
+        run: |
+          terraform apply \
+            -var="bucket_name=my-unique-terraform-demo-bucket-12345" \
+            -var="environment=dev" \
+            -auto-approve
